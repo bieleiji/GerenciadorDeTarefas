@@ -60,6 +60,7 @@ public class Menu {
     public static int cadastrar() {
         System.out.print("Digite o seu ");
         String nome = entradaNome();
+        if(nome == null) return -1;
         int id = usuarios.size() + 1;
         System.out.printf("Seu ID é '%d'\n", id);
         System.out.println("(Digite enter para continuar)");
@@ -72,12 +73,20 @@ public class Menu {
     }
 
     public static int logar() {
-        System.out.println("Digite o seu ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        String id;
+
+        while(true) {
+            System.out.println("Digite o seu ID: ");
+            id = scanner.nextLine();
+            if(id.isBlank()) return -1;
+
+            if(Integer.parseInt(id) < 0 || Integer.parseInt(id) > usuarios.size())
+                System.out.println("\n\n(Usuário não encontrado, tente novamente)\n");
+            else break;
+        }
         System.out.println("\n\n\n");
 
-        return id - 1;
+        return Integer.parseInt(id) - 1;
     }
 
     public static int entradaNaoUsuario() {
@@ -85,7 +94,7 @@ public class Menu {
             char escolha = scanner.next().toUpperCase().charAt(0);
             scanner.nextLine();
 
-            if (escolha == 'X') return -1;
+            if (escolha == 'X') return -2;
             else if (escolha < 'A' || escolha > 'B')
                 System.out.println("\n\n(Opção inexistente, tente novamente)\n");
             else {
@@ -204,7 +213,8 @@ public class Menu {
             opcoesMenu(ehUsuario,qualUsuario);
             if(!ehUsuario) {
                 qualUsuario = entradaNaoUsuario();
-                if(qualUsuario == -1) break;
+                if(qualUsuario == -2) break;
+                else if(qualUsuario == -1) continue;
                 ehUsuario = true;
             }
             else {
