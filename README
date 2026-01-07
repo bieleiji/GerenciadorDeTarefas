@@ -1,0 +1,44 @@
+## Gerenciador de Tarefas
+
+## Resumo
+* O projeto é basicamente um sistema de agenda empresarial, onde cada usuário cadastrado pode criar e configurar suas próprias tarefas privadas;
+
+## Contexto
+* Esse projeto em Java foi feito no intuito de aprimorar os conceitos básicos de simulação em memória, POO, e Git, além de praticar os conceitos básicos de Estrutura de Dados;
+
+## Funcionalidades:
+* O projeto funciona da seguinte forma:
+- O usuário pode cadastrar-se ou logar em uma conta que já foi criada
+- Quando já logado o próprio pode escolher entre acessar:
+
+    ### Opções de Usuário, que tem as opções:
+        > Mostrar Informações da Conta
+        > Alterar Nome
+        > Excluir Conta
+
+    ### Opções de Tarefas, que tem as opções:
+        > Criar uma tarefa
+        > Alterar Dados de uma Tarefa
+        > Excluir uma Tarefa
+        > Concluir tarefas
+        > Mostrar tarefas
+
+
+## Como Executar
+* O usuário deverá ter uma JDK ou uma IDE própria de Java para poder executar o código e deve executar apenas na classe Main, lembrando que a interação vai ocorrer 100% via terminal;
+
+## Tecnologias/Conceitos
+- Java;
+- POO (Programação Orientada a Objetos);
+- Estruturas de dados;
+- Git e GitHub;
+
+## Organização
+* O código possui três pacotes com algumas classes cada, sendo a app com a classe Main, ui com a classe Menu e User com as classes Usuario, GerenciadorTarefas e Tarefa, onde todas elas em conjunto fazem as ações citadas na parte de funcionalidades;
+
+## Melhorias
+* Algumas melhorias que poderiam ser levadas em consideração seriam:
+- Otimização na estrutura de dados;
+- Aumento das possibilidades do estado das tarefas;
+- Diminuição da concentração de funções em uma única classe;
+
