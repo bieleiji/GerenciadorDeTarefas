@@ -2,7 +2,7 @@ package User;
 
 public class Tarefa {
     private String titulo;
-    private String descricao;
+    private String descricao = null;
 
     Tarefa(String titulo, String descricao) {
         this.titulo = titulo;
