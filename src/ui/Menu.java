@@ -133,31 +133,6 @@ public class Menu {
         }
     }
 
-    public static void mostrarInfConta(int qualUsuario) {
-        System.out.println(usuarios.get(qualUsuario));
-        System.out.println("\n\n(Digite 'enter' para continuar)\n");
-        scanner.nextLine();
-        System.out.println("\n\n\n");
-    }
-
-    public static void alterarNome(int qualUsuario){
-        System.out.print("Digite o novo ");
-        String nome = entradaNome();
-
-        usuarios.get(qualUsuario).setNome(nome);
-    }
-
-    public static boolean excluirConta(int qualUsuario) {
-        System.out.println("Tem certeza?(S/n): ");
-        char escolha = scanner.next().toUpperCase().charAt(0);
-        if(escolha == 'S') {
-            usuarios.remove(qualUsuario);
-            System.out.println("Conta excluída com exito");
-            return false;
-        }
-        return true;
-    }
-
     public static boolean entradaopcoesUsuario(int qualUsuario) {
         while(true) {
             opcoesUsuario();
@@ -171,10 +146,15 @@ public class Menu {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
                 switch(escolha) {
-                    case 'A' -> mostrarInfConta(qualUsuario);
-                    case 'B' -> alterarNome(qualUsuario);
+                    case 'A' -> usuarios.get(qualUsuario).mostrarInfConta();
+                    case 'B' -> usuarios.get(qualUsuario).alterarNome();
                     case 'C' -> {
-                        return excluirConta(qualUsuario);
+                        char opcao = usuarios.get(qualUsuario).excluirConta();
+                        if(opcao == 'S') {
+                            usuarios.remove(qualUsuario);
+                            System.out.println("Conta excluída com exito");
+                            return false;
+                        }
                     }
                 }
                 System.out.println("\n\n\n");
