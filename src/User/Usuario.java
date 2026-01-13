@@ -52,33 +52,8 @@ public class Usuario {
     /// Criar Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static String entradaTitulo() {
-        System.out.print("Título: ");
-        String titulo = scanner.nextLine();
-        if(titulo.isBlank()) return null;
-
-        return titulo;
-    }
-
-    public static String entradaDescricao() {
-        System.out.print("Descrição: ");
-        String descricao = scanner.nextLine();
-        if(descricao.isBlank()) return null;
-
-        return descricao;
-    }
-
-    public void criarTarefa() {
-        System.out.println("Digite o:");
-
-        String titulo = entradaTitulo();
-        if(titulo == null) return;
-
-        System.out.println("\n\n(A descrição não é obrigatória, então digite 'enter' caso não queira fazer esta parte)\n");
-        String descricao = entradaDescricao();
-
-        GerenciadorTarefas<Tarefa,Boolean> novaTarefa = new GerenciadorTarefas<>(new Tarefa(titulo,descricao),false);
-        gerenciadorTarefas.add(novaTarefa);
+    public static void criarTarefa(Tarefa tarefa) {
+        gerenciadorTarefas.add(new GerenciadorTarefas<>(tarefa,false));
     }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

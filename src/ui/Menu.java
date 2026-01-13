@@ -1,6 +1,7 @@
 package ui;
 
 import User.Usuario;
+import service.MenuService;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -109,6 +110,34 @@ public class Menu {
         }
     }
 
+    public static String entradaTitulo() {
+        System.out.print("Título: ");
+        String titulo = scanner.nextLine();
+        if(titulo.isBlank()) return null;
+
+        return titulo;
+    }
+
+    public static String entradaDescricao() {
+        System.out.print("Descrição: ");
+        String descricao = scanner.nextLine();
+        if(descricao.isBlank()) return null;
+
+        return descricao;
+    }
+
+    public void entradaCriarTarefa(int qualUsuario) {
+        System.out.println("Digite o:");
+
+        String titulo = entradaTitulo();
+        if(titulo == null) return;
+
+        System.out.println("\n\n(A descrição não é obrigatória, então digite 'enter' caso não queira fazer esta parte)\n");
+        String descricao = entradaDescricao();
+
+        String erro = MenuService.checkCriarTarefa(usuarios.get(qualUsuario),titulo,descricao);
+    }
+
     public static void entradaOpcoesTarefas(int qualUsuario) {
         while(true) {
             opcoesTarefas();
@@ -122,7 +151,7 @@ public class Menu {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
                 switch(escolha) {
-                    case 'A' -> usuarios.get(qualUsuario).criarTarefa();
+                    case 'A' -> entradaCriarTarefa(qualUsuario);
                     case 'B' -> usuarios.get(qualUsuario).alterarTarefa();
                     case 'C' -> usuarios.get(qualUsuario).excluirTarefa();
                     case 'D' -> usuarios.get(qualUsuario).concluirTarefas();
