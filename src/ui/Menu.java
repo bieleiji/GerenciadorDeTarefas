@@ -210,7 +210,10 @@ public class Menu {
                     case 'A' -> {
                         return entradaopcoesUsuario(qualUsuario);
                     }
-                    case 'B' -> entradaOpcoesTarefas(qualUsuario);
+                    case 'B' -> {
+                        entradaOpcoesTarefas(qualUsuario);
+                        return true;
+                    }
                 }
                 System.out.println("\n\n\n");
             }
