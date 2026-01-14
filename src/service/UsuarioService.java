@@ -3,7 +3,7 @@ package service;
 import User.Tarefa;
 import User.Usuario;
 
-public class MenuService {
+public class UsuarioService {
 
     public static boolean ehTituloRepetido(Usuario usuario, String titulo) {
         for(int i = 0; i < usuario.getGerenciadorTarefas().size(); i++) {

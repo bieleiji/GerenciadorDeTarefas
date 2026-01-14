@@ -76,7 +76,7 @@ public class Usuario {
         mostrarTarefaAtual(qualTarefa);
 
         System.out.print("Digite o novo ");
-        String titulo = entradaTitulo();
+        String titulo = Menu.entradaTitulo();
         if(titulo == null) return;
 
         gerenciadorTarefas.get(qualTarefa).getTask().setTitulo(titulo);
@@ -86,7 +86,7 @@ public class Usuario {
         mostrarTarefaAtual(qualTarefa);
 
         System.out.print("Digite a nova ");
-        String descricao = entradaDescricao();
+        String descricao = Menu.entradaDescricao();
         if(descricao == null) return;
 
         gerenciadorTarefas.get(qualTarefa).getTask().setDescricao(descricao);

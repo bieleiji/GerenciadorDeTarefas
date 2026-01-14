@@ -1,7 +1,7 @@
 package ui;
 
 import User.Usuario;
-import service.MenuService;
+import service.UsuarioService;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -126,16 +126,20 @@ public class Menu {
         return descricao;
     }
 
-    public void entradaCriarTarefa(int qualUsuario) {
-        System.out.println("Digite o:");
+    public static void entradaCriarTarefa(int qualUsuario) {
+        while(true) {
+            System.out.println("Digite o:");
 
-        String titulo = entradaTitulo();
-        if(titulo == null) return;
+            String titulo = entradaTitulo();
+            if (titulo == null) break;
 
-        System.out.println("\n\n(A descrição não é obrigatória, então digite 'enter' caso não queira fazer esta parte)\n");
-        String descricao = entradaDescricao();
+            System.out.println("\n\n(A descrição não é obrigatória, então digite 'enter' caso não queira fazer esta parte)\n");
+            String descricao = entradaDescricao();
 
-        String erro = MenuService.checkCriarTarefa(usuarios.get(qualUsuario),titulo,descricao);
+            String erro = UsuarioService.checkCriarTarefa(usuarios.get(qualUsuario), titulo, descricao);
+            System.out.println(erro);
+            if(erro.equals("\n\n(tarefa criada com sucesso!!!)\n")) break;
+        }
     }
 
     public static void entradaOpcoesTarefas(int qualUsuario) {
