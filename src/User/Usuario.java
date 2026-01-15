@@ -47,7 +47,7 @@ public class Usuario {
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Opções de Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    ///
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Criar Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,81 +60,14 @@ public class Usuario {
     /// Alterar Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void mostrarTarefaAtual(int qualTarefa) {
-        String titulo = gerenciadorTarefas.get(qualTarefa).getTask().getTitulo();
-        String descricao = gerenciadorTarefas.get(qualTarefa).getTask().getDescricao();
-        String andamento = gerenciadorTarefas.get(qualTarefa).getCourse() ? "completa" : "pendente";
-
-        System.out.println("/*******************************************************/");
-        System.out.printf("%dª tarefa:\n\n",qualTarefa+1);
-        System.out.printf("Título: \n%s\n",titulo);
-        if(descricao != null) System.out.printf("Descrição: \n%s\n",descricao);
-        System.out.printf("Andamento: \n%s\n\n",andamento);
-    }
-
-    public static void alterarTitulo(int qualTarefa) {
-        mostrarTarefaAtual(qualTarefa);
-
-        System.out.print("Digite o novo ");
-        String titulo = Menu.entradaTitulo();
-        if(titulo == null) return;
-
+    public static void alterarTitulo(String titulo, int qualTarefa) {
         gerenciadorTarefas.get(qualTarefa).getTask().setTitulo(titulo);
     }
 
-    public static void alterarDescricao(int qualTarefa) {
-        mostrarTarefaAtual(qualTarefa);
-
-        System.out.print("Digite a nova ");
-        String descricao = Menu.entradaDescricao();
-        if(descricao == null) return;
-
+    public static void alterarDescricao(String descricao, int qualTarefa) {
         gerenciadorTarefas.get(qualTarefa).getTask().setDescricao(descricao);
     }
 
-    public static void opcoesAlteracao(int qualTarefa) {
-        while(true) {
-            mostrarTarefaAtual(qualTarefa);
-            System.out.println("Você quer mudar:");
-            System.out.println("A) O título\nB) A descrição");
-            char escolha = scanner.next().toUpperCase().charAt(0);
-            scanner.nextLine();
-
-            if(Character.isWhitespace(escolha)) return;
-            else if(escolha < 'A' || escolha > 'B')
-                System.out.println("\n\n(Opção inexistente, tente novamente)\n");
-
-            else {
-                System.out.println("\n\n\n");
-                System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
-                switch(escolha) {
-                    case 'A' -> alterarTitulo(qualTarefa);
-                    case 'B' -> alterarDescricao(qualTarefa);
-                }
-            }
-            System.out.println("\n\n\n");
-            mostrarTarefaAtual(qualTarefa);
-            System.out.print("Deseja fazer mais alguma alteração?(S/n): ");
-            escolha = scanner.next().toUpperCase().charAt(0);
-            scanner.nextLine();
-            if(escolha != 'S') break;
-        }
-    }
-
-    public void alterarTarefa() {
-        int qualTarefa;
-
-        while(true) {
-            mostrarTarefasCondicional('C');
-            System.out.println("Digite o número da tarefa que deseja alterar: ");
-            qualTarefa = scanner.nextInt();
-            if(qualTarefa < 0 || qualTarefa > gerenciadorTarefas.size())
-                System.out.println("\n\n(Tarefa inexistente, tente novamente)\n");
-            else break;
-        }
-
-        opcoesAlteracao(qualTarefa-1);
-    }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Excluir Tarefa ↓
@@ -193,14 +126,14 @@ public class Usuario {
             boolean andamento = gerenciadorTarefas.get(i).getCourse();
             switch(escolha) {
                 case 'A' -> {
-                    if(andamento) mostrarTarefaAtual(i);
+                    if(andamento) Menu.mostrarTarefaAtual(i);
                 }
 
                 case 'B' -> {
-                    if(!andamento) mostrarTarefaAtual(i);
+                    if(!andamento) Menu.mostrarTarefaAtual(i);
                 }
 
-                case 'C' -> mostrarTarefaAtual(i);
+                case 'C' -> Menu.mostrarTarefaAtual(i);
 
             }
         }
@@ -234,7 +167,7 @@ public class Usuario {
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Opções de Usuário ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    ///
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Mostrar Informações da Conta ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

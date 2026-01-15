@@ -1,6 +1,6 @@
 package User;
 
-public class GerenciadorTarefas<T,C> {
+public class GerenciadorTarefas<T,C>{
     T task;
     C course;
 

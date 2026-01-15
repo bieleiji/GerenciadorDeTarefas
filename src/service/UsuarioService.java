@@ -5,26 +5,57 @@ import User.Usuario;
 
 public class UsuarioService {
 
-    public static boolean ehTituloRepetido(Usuario usuario, String titulo) {
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Criar Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static int ehTituloRepetido(Usuario usuario, String titulo) {
         for(int i = 0; i < usuario.getGerenciadorTarefas().size(); i++) {
-            if(usuario.getGerenciadorTarefas().get(i).getTask().getTitulo().equals(titulo))
-                return true;
+            if(usuario.getGerenciadorTarefas().get(i).getTask().getTitulo().equalsIgnoreCase(titulo))
+                return i;
         }
 
-        return false;
+        return -1;
     }
 
-    public static String checkCriarTarefa(Usuario usuario, String titulo, String descricao) {
+    public static String criarTarefa(Usuario usuario, String titulo, String descricao) {
         if(titulo == null || titulo.isBlank())
             return "\n\n(titulo inválido, nenhuma tarefa foi criada)\n";
 
-        if(ehTituloRepetido(usuario,titulo))
-            return "\n\n(titulo repetido, nenhuma tarefa foi criada)\n";
+        else if(ehTituloRepetido(usuario,titulo) != -1)
+            return "\n\n(titulo já utilizado, nenhuma tarefa foi criada)\n";
 
         else {
             Tarefa tarefa = new Tarefa(titulo,descricao);
             Usuario.criarTarefa(tarefa);
             return "\n\n(tarefa criada com sucesso!!!)\n";
+        }
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Alterar Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String alterarTitulo(Usuario usuario, String titulo, int qualTarefa) {
+        if(titulo == null || titulo.isBlank())
+            return "\n\n(titulo inválido. Título não foi alterado)\n";
+
+        else if(ehTituloRepetido(usuario,titulo) != -1)
+            return "\n\n(titulo repetido ou já utilizado. Título não foi alterado)\n";
+
+        else {
+            Usuario.alterarTitulo(titulo, qualTarefa);
+            return "\n\n(Título alterado com sucesso!!!)\n";
+        }
+    }
+
+    public static String alterarDescricao(String descricao, int qualTarefa) {
+        if(descricao == null || descricao.isBlank())
+            return "\n\n(descrição inválida. Descrição não foi alterada)\n";
+
+        else {
+            Usuario.alterarDescricao(descricao, qualTarefa);
+            return "\n\n(Descrição alterada com sucesso!!!)\n";
         }
     }
 }

@@ -10,6 +10,8 @@ public class Menu {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<Usuario> usuarios = new ArrayList<>();
 
+    public static int qualUsuario;
+
     public static void opcoesUsuario() {
         System.out.println("A) Mostrar informações da conta");
         System.out.println("B) Alterar o nome");
@@ -26,7 +28,7 @@ public class Menu {
         System.out.println("\nX) Voltar");
     }
 
-    public static void opcoesMenu(boolean ehUsuario, int qualUsuario) {
+    public static void opcoesMenu(boolean ehUsuario) {
         String primeiroNome;
 
         if(ehUsuario) {
@@ -126,7 +128,7 @@ public class Menu {
         return descricao;
     }
 
-    public static void entradaCriarTarefa(int qualUsuario) {
+    public static void criarTarefa() {
         while(true) {
             System.out.println("Digite o:");
 
@@ -136,27 +138,120 @@ public class Menu {
             System.out.println("\n\n(A descrição não é obrigatória, então digite 'enter' caso não queira fazer esta parte)\n");
             String descricao = entradaDescricao();
 
-            String erro = UsuarioService.checkCriarTarefa(usuarios.get(qualUsuario), titulo, descricao);
+            String erro = UsuarioService.criarTarefa(usuarios.get(qualUsuario), titulo, descricao);
             System.out.println(erro);
             if(erro.equals("\n\n(tarefa criada com sucesso!!!)\n")) break;
         }
     }
 
-    public static void entradaOpcoesTarefas(int qualUsuario) {
+
+    public static void mostrarTarefaAtual(int qualTarefa) {
+        String titulo = usuarios.get(qualUsuario).getGerenciadorTarefas().get(qualTarefa).getTask().getTitulo();
+        String descricao = usuarios.get(qualUsuario).getGerenciadorTarefas().get(qualTarefa).getTask().getDescricao();
+        String andamento = usuarios.get(qualUsuario).getGerenciadorTarefas().get(qualTarefa).getCourse() ? "completa" : "pendente";
+
+        System.out.println("/*******************************************************/");
+        System.out.printf("%dª tarefa:\n\n",qualTarefa+1);
+        System.out.printf("Título: \n%s\n",titulo);
+        if(descricao != null) System.out.printf("Descrição: \n%s\n",descricao);
+        System.out.printf("Andamento: \n%s\n\n",andamento);
+    }
+
+    public static void alterarTitulo(int qualTarefa) {
+        while(true) {
+            mostrarTarefaAtual(qualTarefa);
+
+            System.out.print("Digite o novo ");
+            String titulo = Menu.entradaTitulo();
+            if (titulo == null) return;
+
+            String erro = UsuarioService.alterarTitulo(usuarios.get(qualUsuario), titulo, qualTarefa);
+
+            System.out.println(erro);
+            if (erro.equals("\n\n(Título alterado com sucesso!!!)\n"))
+                break;
+        }
+    }
+
+    public static void alterarDescricao(int qualTarefa) {
+        while(true) {
+            mostrarTarefaAtual(qualTarefa);
+
+            System.out.print("Digite a nova ");
+            String descricao = Menu.entradaDescricao();
+            if (descricao == null) return;
+
+            String erro = UsuarioService.alterarDescricao(descricao, qualTarefa);
+
+            System.out.println(erro);
+            if (erro.equals("\n\n(Descrição alterada com sucesso!!!)\n"))
+                break;
+        }
+    }
+
+    public static void opcoesAlteracao(int qualTarefa) {
+        while(true) {
+            mostrarTarefaAtual(qualTarefa);
+            System.out.println("Você quer mudar:");
+            System.out.println("A) O título\nB) A descrição");
+            char escolha = scanner.next().toUpperCase().charAt(0);
+            scanner.nextLine();
+
+            if(Character.isWhitespace(escolha)) return;
+            else if(escolha < 'A' || escolha > 'B')
+                System.out.println("\n\n(Opção inexistente, tente novamente)\n");
+
+            else {
+                System.out.println("\n\n\n");
+                System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
+                switch(escolha) {
+                    case 'A' -> alterarTitulo(qualTarefa);
+                    case 'B' -> alterarDescricao(qualTarefa);
+                }
+            }
+            System.out.println("\n\n\n");
+            mostrarTarefaAtual(qualTarefa);
+            System.out.print("Deseja fazer mais alguma alteração?(S/n): ");
+            escolha = scanner.next().toUpperCase().charAt(0);
+            scanner.nextLine();
+            if(escolha != 'S') break;
+        }
+    }
+
+    public static void alterarTarefa() {
+        String tarefaDesejada;
+        int qualTarefa;
+
+        while(true) {
+            System.out.println("Digite o nome da tarefa que deseja alterar: ");
+            tarefaDesejada = scanner.nextLine();
+            qualTarefa = UsuarioService.ehTituloRepetido(usuarios.get(qualUsuario), tarefaDesejada);
+            if(qualTarefa == -1)
+                System.out.println("\n\n(Tarefa inexistente, tente novamente)\n");
+            else break;
+        }
+
+        opcoesAlteracao(qualTarefa);
+    }
+
+    public static void entradaOpcoesTarefas() {
         while(true) {
             opcoesTarefas();
             char escolha = scanner.next().toUpperCase().charAt(0);
             scanner.nextLine();
 
-            if (escolha == 'X') return;
+            if (escolha == 'X') {
+                System.out.println("\n\n\n");
+                return;
+            }
             else if (escolha < 'A' || escolha > 'E')
                 System.out.println("\n\n(Opção inexistente, tente novamente)\n");
             else {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
                 switch(escolha) {
-                    case 'A' -> entradaCriarTarefa(qualUsuario);
-                    case 'B' -> usuarios.get(qualUsuario).alterarTarefa();
+                    case 'A' -> criarTarefa();
+                    case 'B' -> alterarTarefa();
                     case 'C' -> usuarios.get(qualUsuario).excluirTarefa();
                     case 'D' -> usuarios.get(qualUsuario).concluirTarefas();
                     case 'E' -> usuarios.get(qualUsuario).mostrarTarefas();
@@ -166,13 +261,16 @@ public class Menu {
         }
     }
 
-    public static boolean entradaopcoesUsuario(int qualUsuario) {
+    public static boolean entradaopcoesUsuario() {
         while(true) {
             opcoesUsuario();
             char escolha = scanner.next().toUpperCase().charAt(0);
             scanner.nextLine();
 
-            if (escolha == 'X') return true;
+            if (escolha == 'X') {
+                System.out.println("\n\n\n");
+                return true;
+            }
             else if (escolha < 'A' || escolha > 'C')
                 System.out.println("\n\n(Opção inexistente, tente novamente)\n");
             else {
@@ -195,12 +293,15 @@ public class Menu {
         }
     }
 
-    public static boolean entradaSimUsuario(int qualUsuario) {
+    public static boolean entradaSimUsuario() {
         while(true) {
             char escolha = scanner.next().toUpperCase().charAt(0);
             scanner.nextLine();
 
-            if (escolha == 'X') return false;
+            if (escolha == 'X') {
+                System.out.println("\n\n\n");
+                return false;
+            }
             else if (escolha < 'A' || escolha > 'B')
                 System.out.println("\n\n(Opção inexistente, tente novamente)\n");
             else {
@@ -208,10 +309,10 @@ public class Menu {
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
                 switch(escolha) {
                     case 'A' -> {
-                        return entradaopcoesUsuario(qualUsuario);
+                        return entradaopcoesUsuario();
                     }
                     case 'B' -> {
-                        entradaOpcoesTarefas(qualUsuario);
+                        entradaOpcoesTarefas();
                         return true;
                     }
                 }
@@ -222,11 +323,11 @@ public class Menu {
 
     public static void menuPrincipal() {
         boolean ehUsuario = false;
-        int qualUsuario = -1;
+        qualUsuario = -1;
 
         System.out.println("\n\n\n");
         while(true) {
-            opcoesMenu(ehUsuario,qualUsuario);
+            opcoesMenu(ehUsuario);
             if(!ehUsuario) {
                 qualUsuario = entradaNaoUsuario();
                 if(qualUsuario == -2) break;
@@ -234,7 +335,7 @@ public class Menu {
                 ehUsuario = true;
             }
             else {
-                ehUsuario = entradaSimUsuario(qualUsuario);
+                ehUsuario = entradaSimUsuario();
                 if (!ehUsuario) qualUsuario = -1;
             }
         }
