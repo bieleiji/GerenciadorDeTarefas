@@ -73,23 +73,8 @@ public class Usuario {
     /// Excluir Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void excluirTarefa() {
-        while(true) {
-            mostrarTarefasCondicional('C');
-            System.out.println("Digite o número da tarefa que deseja excluir: ");
-            int qualTarefa = scanner.nextInt();
-            if(qualTarefa < 0 || qualTarefa > gerenciadorTarefas.size())
-                System.out.println("\n\n(Tarefa inexistente, tente novamente)\n");
-            else {
-                System.out.println("\n\n(Tarefa excluída)\n");
-                gerenciadorTarefas.remove(qualTarefa);
-
-                System.out.println("Deseja excluir mais alguma tarefa?(S/n): ");
-                char escolha = scanner.next().toUpperCase().charAt(0);
-                scanner.nextLine();
-                if(escolha != 'S') break;
-            }
-        }
+    public static void excluirTarefa(int qualTarefa) {
+        gerenciadorTarefas.remove(qualTarefa);
     }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

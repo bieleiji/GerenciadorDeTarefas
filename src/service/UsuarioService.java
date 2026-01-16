@@ -58,4 +58,20 @@ public class UsuarioService {
             return "\n\n(Descrição alterada com sucesso!!!)\n";
         }
     }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Excluir Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String excluirTarefa(Usuario usuario, String tarefaDesejada) {
+        int qualTarefa = ehTituloRepetido(usuario,tarefaDesejada);
+
+        if(qualTarefa == -1)
+            return "\n\n(Tarefa não encontrada, tente novamente)\n";
+
+        else {
+            Usuario.excluirTarefa(qualTarefa);
+            return "\n\n(Tarefa excluída com êxito!)\n";
+        }
+    }
 }

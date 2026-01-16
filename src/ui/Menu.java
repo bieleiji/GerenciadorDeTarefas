@@ -112,6 +112,10 @@ public class Menu {
         }
     }
 
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Criar Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public static String entradaTitulo() {
         System.out.print("Título: ");
         String titulo = scanner.nextLine();
@@ -144,6 +148,9 @@ public class Menu {
         }
     }
 
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Alterar Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void mostrarTarefaAtual(int qualTarefa) {
         String titulo = usuarios.get(qualUsuario).getGerenciadorTarefas().get(qualTarefa).getTask().getTitulo();
@@ -152,9 +159,9 @@ public class Menu {
 
         System.out.println("/*******************************************************/");
         System.out.printf("%dª tarefa:\n\n",qualTarefa+1);
-        System.out.printf("Título: \n%s\n",titulo);
-        if(descricao != null) System.out.printf("Descrição: \n%s\n",descricao);
-        System.out.printf("Andamento: \n%s\n\n",andamento);
+        System.out.printf("Título: %s\n",titulo);
+        if(descricao != null) System.out.printf("Descrição: %s\n",descricao);
+        System.out.printf("Andamento: %s\n\n",andamento);
     }
 
     public static void alterarTitulo(int qualTarefa) {
@@ -225,6 +232,8 @@ public class Menu {
         while(true) {
             System.out.println("Digite o nome da tarefa que deseja alterar: ");
             tarefaDesejada = scanner.nextLine();
+            if(tarefaDesejada.isBlank()) return;
+
             qualTarefa = UsuarioService.ehTituloRepetido(usuarios.get(qualUsuario), tarefaDesejada);
             if(qualTarefa == -1)
                 System.out.println("\n\n(Tarefa inexistente, tente novamente)\n");
@@ -232,6 +241,30 @@ public class Menu {
         }
 
         opcoesAlteracao(qualTarefa);
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Excluir Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void excluirTarefa() {
+        String tarefaDesejada;
+
+        while(true) {
+            System.out.println("Digite o nome da tarefa que deseja alterar: ");
+            tarefaDesejada = scanner.nextLine();
+            if(tarefaDesejada.isBlank()) return;
+
+            String erro = UsuarioService.excluirTarefa(usuarios.get(qualUsuario),tarefaDesejada);
+            System.out.println(erro);
+
+            if(erro.equals("\n\n(Tarefa excluída com êxito!)\n")) {
+                System.out.println("Deseja excluir mais alguma tarefa?(S/n): ");
+                char escolha = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
+                if (escolha != 'S') break;
+            }
+        }
     }
 
     public static void entradaOpcoesTarefas() {
@@ -252,7 +285,7 @@ public class Menu {
                 switch(escolha) {
                     case 'A' -> criarTarefa();
                     case 'B' -> alterarTarefa();
-                    case 'C' -> usuarios.get(qualUsuario).excluirTarefa();
+                    case 'C' -> excluirTarefa();
                     case 'D' -> usuarios.get(qualUsuario).concluirTarefas();
                     case 'E' -> usuarios.get(qualUsuario).mostrarTarefas();
                 }
