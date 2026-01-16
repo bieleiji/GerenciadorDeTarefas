@@ -230,7 +230,7 @@ public class Menu {
         int qualTarefa;
 
         while(true) {
-            System.out.println("Digite o nome da tarefa que deseja alterar: ");
+            System.out.println("Digite o título da tarefa que deseja alterar: ");
             tarefaDesejada = scanner.nextLine();
             if(tarefaDesejada.isBlank()) return;
 
@@ -251,7 +251,7 @@ public class Menu {
         String tarefaDesejada;
 
         while(true) {
-            System.out.println("Digite o nome da tarefa que deseja alterar: ");
+            System.out.println("Digite o título da tarefa que deseja excluir: ");
             tarefaDesejada = scanner.nextLine();
             if(tarefaDesejada.isBlank()) return;
 
