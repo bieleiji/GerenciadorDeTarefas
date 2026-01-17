@@ -47,7 +47,7 @@ public class Usuario {
     /// Criar Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void criarTarefa(Tarefa tarefa) {
+    public void criarTarefa(Tarefa tarefa) {
         gerenciadorTarefas.add(new GerenciadorTarefas<>(tarefa,false));
     }
 
@@ -55,7 +55,7 @@ public class Usuario {
     /// Alterar Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void alterarTitulo(String titulo, int qualTarefa) {
+    public void alterarTitulo(String titulo, int qualTarefa) {
         gerenciadorTarefas.get(qualTarefa).getTask().setTitulo(titulo);
     }
 
@@ -68,7 +68,7 @@ public class Usuario {
     /// Excluir Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void excluirTarefa(int qualTarefa) {
+    public void excluirTarefa(int qualTarefa) {
         gerenciadorTarefas.remove(qualTarefa);
     }
 
@@ -76,7 +76,7 @@ public class Usuario {
     /// Concluir Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void concluirTarefa(int qualTarefa) {
+    public void concluirTarefa(int qualTarefa) {
         gerenciadorTarefas.get(qualTarefa).setComplete(true);
     }
 }

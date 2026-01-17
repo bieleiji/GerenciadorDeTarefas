@@ -27,7 +27,7 @@ public class UsuarioService {
 
         else {
             Tarefa tarefa = new Tarefa(titulo,descricao);
-            Usuario.criarTarefa(tarefa);
+            usuario.criarTarefa(tarefa);
             return "\n\n(tarefa criada com sucesso!!!)\n";
         }
     }
@@ -44,7 +44,7 @@ public class UsuarioService {
             return "\n\n(titulo repetido ou já utilizado. Título não foi alterado)\n";
 
         else {
-            Usuario.alterarTitulo(titulo, qualTarefa);
+            usuario.alterarTitulo(titulo, qualTarefa);
             return "\n\n(Título alterado com sucesso!!!)\n";
         }
     }
@@ -70,7 +70,7 @@ public class UsuarioService {
             return "\n\n(Tarefa não encontrada, tente novamente)\n";
 
         else {
-            Usuario.excluirTarefa(qualTarefa);
+            usuario.excluirTarefa(qualTarefa);
             return "\n\n(Tarefa excluída com êxito!)\n";
         }
     }
@@ -86,7 +86,7 @@ public class UsuarioService {
             return "\n\n(Tarefa não encontrada, tente novamente)\n";
 
         else {
-            Usuario.concluirTarefa(qualTarefa);
+            usuario.concluirTarefa(qualTarefa);
             return "\n\n(Tarefa concluída com êxito!)\n";
         }
     }
