@@ -74,4 +74,20 @@ public class UsuarioService {
             return "\n\n(Tarefa excluída com êxito!)\n";
         }
     }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Concluir Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String concluirTarefa(Usuario usuario, String tarefaDesejada) {
+        int qualTarefa = ehTituloRepetido(usuario,tarefaDesejada);
+
+        if(qualTarefa == -1)
+            return "\n\n(Tarefa não encontrada, tente novamente)\n";
+
+        else {
+            Usuario.concluirTarefa(qualTarefa);
+            return "\n\n(Tarefa concluída com êxito!)\n";
+        }
+    }
 }

@@ -201,27 +201,32 @@ public class Menu {
             mostrarTarefaAtual(qualTarefa);
             System.out.println("Você quer mudar:");
             System.out.println("A) O título\nB) A descrição");
+            System.out.println("\nX) Voltar");
             char escolha = scanner.next().toUpperCase().charAt(0);
             scanner.nextLine();
 
-            if(Character.isWhitespace(escolha)) return;
+            if(escolha == 'X') {
+                System.out.println("\n\n\n");
+                return;
+            }
             else if(escolha < 'A' || escolha > 'B')
                 System.out.println("\n\n(Opção inexistente, tente novamente)\n");
 
             else {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
-                switch(escolha) {
+                switch (escolha) {
                     case 'A' -> alterarTitulo(qualTarefa);
                     case 'B' -> alterarDescricao(qualTarefa);
                 }
+
+                System.out.println("\n\n\n");
+                mostrarTarefaAtual(qualTarefa);
+                System.out.print("Deseja fazer mais alguma alteração?(S/n): ");
+                escolha = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
+                if (escolha != 'S') break;
             }
-            System.out.println("\n\n\n");
-            mostrarTarefaAtual(qualTarefa);
-            System.out.print("Deseja fazer mais alguma alteração?(S/n): ");
-            escolha = scanner.next().toUpperCase().charAt(0);
-            scanner.nextLine();
-            if(escolha != 'S') break;
         }
     }
 
@@ -267,6 +272,96 @@ public class Menu {
         }
     }
 
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Concluir Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void concluirTarefas() {
+        String tarefaDesejada;
+
+        while(true) {
+            System.out.println("Digite o título da tarefa que deseja concluir: ");
+            tarefaDesejada = scanner.nextLine();
+            if(tarefaDesejada.isBlank()) return;
+
+            String erro = UsuarioService.concluirTarefa(usuarios.get(qualUsuario),tarefaDesejada);
+            System.out.println(erro);
+
+            if(erro.equals("\n\n(Tarefa concluída com êxito!)\n")) {
+                System.out.println("Deseja concluir mais alguma tarefa?(S/n): ");
+                char escolha = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
+                if (escolha != 'S') break;
+            }
+        }
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Mostrar Tarefa ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void mostrarTarefasCondicional(char escolha) {
+        boolean existeTarefa = false;
+
+        for(int i = 0; i < usuarios.get(qualUsuario).getGerenciadorTarefas().size(); i++) {
+            boolean andamento = usuarios.get(qualUsuario).getGerenciadorTarefas().get(i).getCourse();
+            switch(escolha) {
+                case 'A' -> {
+                    if(andamento) {
+                        Menu.mostrarTarefaAtual(i);
+                        existeTarefa = true;
+                    }
+                }
+
+                case 'B' -> {
+                    if(!andamento) {
+                        Menu.mostrarTarefaAtual(i);
+                        existeTarefa = true;
+                    }
+                }
+
+                case 'C' -> {
+                    Menu.mostrarTarefaAtual(i);
+                    existeTarefa = true;
+                }
+            }
+        }
+
+        if(!existeTarefa) System.out.println("\n\n(Nenhuma tarefa foi encontrada)\n");
+    }
+
+    public static void mostrarTarefas() {
+        while(true) {
+            System.out.println("Você quer ver: ");
+            System.out.println("A) As tarefas concluídas");
+            System.out.println("B) As tarefas pendentes");
+            System.out.println("C) Ambas");
+            System.out.println("\nX) Voltar");
+            char escolha = scanner.next().toUpperCase().charAt(0);
+            scanner.nextLine();
+
+            if(escolha == 'X') {
+                System.out.println("\n\n\n");
+                return;
+            }
+            else if (escolha < 'A' || escolha > 'C')
+                System.out.println("\n\n(Opção inexistente, tente novamente)\n");
+            else {
+                System.out.println("\n\n\n");
+                mostrarTarefasCondicional(escolha);
+                System.out.println("\n\n(Digite 'enter' para continuar)\n");
+                scanner.nextLine();
+                System.out.println("\n\n\n");
+                System.out.print("Deseja utilizar outra das opções apresentadas?(S/n): ");
+                escolha = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
+
+                System.out.println("\n\n\n");
+                if (escolha != 'S') break;
+            }
+        }
+    }
+
     public static void entradaOpcoesTarefas() {
         while(true) {
             opcoesTarefas();
@@ -286,12 +381,46 @@ public class Menu {
                     case 'A' -> criarTarefa();
                     case 'B' -> alterarTarefa();
                     case 'C' -> excluirTarefa();
-                    case 'D' -> usuarios.get(qualUsuario).concluirTarefas();
-                    case 'E' -> usuarios.get(qualUsuario).mostrarTarefas();
+                    case 'D' -> concluirTarefas();
+                    case 'E' -> mostrarTarefas();
                 }
                 System.out.println("\n\n\n");
             }
         }
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Mostrar Informações da Conta ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void mostrarInfConta() {
+        System.out.println(usuarios.get(qualUsuario));
+        System.out.println("\n\n(Digite 'enter' para continuar)\n");
+        scanner.nextLine();
+        System.out.println("\n\n\n");
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Alterar Nome ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void alterarNome() {
+        System.out.print("Digite o novo ");
+        String nome = Menu.entradaNome();
+        if(nome == null) return;
+
+        usuarios.get(qualUsuario).setNome(nome);
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// excluir Conta ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void excluirConta() {
+        System.out.println("Tem certeza?(S/n): ");
+        char escolha = scanner.next().toUpperCase().charAt(0);
+
+        if(escolha == 'S') usuarios.remove(escolha);
     }
 
     public static boolean entradaopcoesUsuario() {
@@ -310,16 +439,9 @@ public class Menu {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
                 switch(escolha) {
-                    case 'A' -> usuarios.get(qualUsuario).mostrarInfConta();
-                    case 'B' -> usuarios.get(qualUsuario).alterarNome();
-                    case 'C' -> {
-                        char opcao = usuarios.get(qualUsuario).excluirConta();
-                        if(opcao == 'S') {
-                            usuarios.remove(qualUsuario);
-                            System.out.println("Conta excluída com exito");
-                            return false;
-                        }
-                    }
+                    case 'A' -> mostrarInfConta();
+                    case 'B' -> alterarNome();
+                    case 'C' -> excluirConta();
                 }
                 System.out.println("\n\n\n");
             }
