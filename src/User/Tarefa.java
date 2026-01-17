@@ -2,9 +2,9 @@ package User;
 
 public class Tarefa {
     private String titulo;
-    private String descricao = null;
+    private String descricao;
 
-    Tarefa(String titulo, String descricao) {
+    public Tarefa(String titulo, String descricao) {
         this.titulo = titulo;
         this.descricao = descricao;
     }
