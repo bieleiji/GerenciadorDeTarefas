@@ -169,7 +169,7 @@ public class Menu {
             mostrarTarefaAtual(qualTarefa);
 
             System.out.print("Digite o novo ");
-            String titulo = Menu.entradaTitulo();
+            String titulo = entradaTitulo();
             if (titulo == null) return;
 
             String erro = UsuarioService.alterarTitulo(usuarios.get(qualUsuario), titulo, qualTarefa);
@@ -185,7 +185,7 @@ public class Menu {
             mostrarTarefaAtual(qualTarefa);
 
             System.out.print("Digite a nova ");
-            String descricao = Menu.entradaDescricao();
+            String descricao = entradaDescricao();
             if (descricao == null) return;
 
             String erro = UsuarioService.alterarDescricao(descricao, qualTarefa);
@@ -416,14 +416,19 @@ public class Menu {
     /// excluir Conta ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void excluirConta() {
+    public static boolean excluirConta() {
         System.out.println("Tem certeza?(S/n): ");
         char escolha = scanner.next().toUpperCase().charAt(0);
 
-        if(escolha == 'S') usuarios.remove(escolha);
+        if(escolha == 'S') {
+            usuarios.remove(qualUsuario);
+            return false;
+        }
+
+        return true;
     }
 
-    public static boolean entradaopcoesUsuario() {
+    public static boolean entradaOpcoesUsuario() {
         while(true) {
             opcoesUsuario();
             char escolha = scanner.next().toUpperCase().charAt(0);
@@ -441,7 +446,10 @@ public class Menu {
                 switch(escolha) {
                     case 'A' -> mostrarInfConta();
                     case 'B' -> alterarNome();
-                    case 'C' -> excluirConta();
+                    case 'C' -> {
+                        System.out.println("\n\n\n");
+                        return excluirConta();
+                    }
                 }
                 System.out.println("\n\n\n");
             }
@@ -464,7 +472,7 @@ public class Menu {
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
                 switch(escolha) {
                     case 'A' -> {
-                        return entradaopcoesUsuario();
+                        return entradaOpcoesUsuario();
                     }
                     case 'B' -> {
                         entradaOpcoesTarefas();
