@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Usuario {
     private static ArrayList<GerenciadorTarefas<Tarefa, Boolean>> gerenciadorTarefas = new ArrayList<>();
     private String nome;
-    private final int id;
+    private final String id;
 
-    public Usuario(String nome, int id) {
+    public Usuario(String nome, String id) {
         this.nome = nome;
         this.id = id;
     }
@@ -23,7 +23,7 @@ public class Usuario {
         return nome;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

@@ -3,7 +3,50 @@ package service;
 import User.Tarefa;
 import User.Usuario;
 
+import java.io.*;
+import java.util.ArrayList;
+
 public class UsuarioService {
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento/Carregamento dos Dados ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento de Dados ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento de login ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String caminho = "src/service/dadosDeLogin.txt";
+
+    public static void salvarLogins(ArrayList<Usuario> usuarios) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminho))) {
+            for(Usuario usuario : usuarios) {
+                writer.write(usuario.getNome() + ";" + usuario.getId());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("\n\n(Operação de entrada e saída interrompida)\n");
+        }
+    }
+
+    public static void carregarLogins(ArrayList<Usuario> usuarios) {
+        try(BufferedReader reader = new BufferedReader(new FileReader(caminho))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] dados = linha.split(";");
+                usuarios.add(new Usuario(dados[0], dados[1]));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("\n\n(Arquivo não encontrado)\n");
+        } catch (IOException e) {
+            System.out.println("\n\n(Operação de entrada e saída interrompida)\n");
+        }
+    }
+
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Criar Tarefa ↓

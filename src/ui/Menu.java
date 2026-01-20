@@ -64,15 +64,15 @@ public class Menu {
         System.out.print("Digite o seu ");
         String nome = entradaNome();
         if(nome == null) return -1;
-        int id = usuarios.size() + 1;
-        System.out.printf("Seu ID é '%d'\n", id);
+        String id = Integer.toString(usuarios.size() + 1);
+        System.out.printf("Seu ID é '%s'\n", id);
         System.out.println("(Digite enter para continuar)");
         scanner.nextLine();
 
         usuarios.add(new Usuario(nome,id));
         System.out.println("\n\n\n");
 
-        return id - 1;
+        return Integer.parseInt(id) - 1;
     }
 
     public static int logar() {
@@ -487,13 +487,17 @@ public class Menu {
     public static void menuPrincipal() {
         boolean ehUsuario = false;
         qualUsuario = -1;
+        UsuarioService.carregarLogins(usuarios);
 
         System.out.println("\n\n\n");
         while(true) {
             opcoesMenu(ehUsuario);
             if(!ehUsuario) {
                 qualUsuario = entradaNaoUsuario();
-                if(qualUsuario == -2) break;
+                if(qualUsuario == -2) {
+                    UsuarioService.salvarLogins(usuarios);
+                    break;
+                }
                 else if(qualUsuario == -1) continue;
                 ehUsuario = true;
             }
