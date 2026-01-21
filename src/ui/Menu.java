@@ -61,9 +61,16 @@ public class Menu {
     }
 
     public static int cadastrar() {
-        System.out.print("Digite o seu ");
-        String nome = entradaNome();
-        if(nome == null) return -1;
+        String nome;
+
+        while(true) {
+            System.out.print("Digite o seu ");
+            nome = entradaNome();
+            if (nome == null) return -1;
+            else if (nome.contains(";"))
+                System.out.println("\n\n(O nome não deve conter ';')\n");
+            else break;
+        }
         String id = Integer.toString(usuarios.size() + 1);
         System.out.printf("Seu ID é '%s'\n", id);
         System.out.println("(Digite enter para continuar)");
@@ -103,6 +110,7 @@ public class Menu {
             else {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
+                System.out.println("\n\n(O nome não deve conter ';')");
                 switch(escolha) {
                     case 'A': return cadastrar();
                     case 'B': return logar();
