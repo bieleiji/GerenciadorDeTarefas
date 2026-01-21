@@ -1,6 +1,8 @@
 package User;
 
-public class GerenciadorTarefas<T,C>{
+import java.util.ArrayList;
+
+public class GerenciadorTarefas<T,C> extends ArrayList<GerenciadorTarefas<Tarefa, Boolean>> {
     T task;
     C course;
 
@@ -21,7 +23,7 @@ public class GerenciadorTarefas<T,C>{
         this.task = task;
     }
 
-    public void setComplete(C course) {
+    public void setCourse(C course) {
         this.course = course;
     }
 }

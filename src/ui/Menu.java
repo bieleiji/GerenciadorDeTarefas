@@ -188,7 +188,7 @@ public class Menu {
             String descricao = entradaDescricao();
             if (descricao == null) return;
 
-            String erro = UsuarioService.alterarDescricao(descricao, qualTarefa);
+            String erro = UsuarioService.alterarDescricao(usuarios.get(qualUsuario), descricao, qualTarefa);
 
             System.out.println(erro);
             if (erro.equals("\n\n(Descrição alterada com sucesso!!!)\n"))
@@ -487,7 +487,9 @@ public class Menu {
     public static void menuPrincipal() {
         boolean ehUsuario = false;
         qualUsuario = -1;
+
         UsuarioService.carregarLogins(usuarios);
+        UsuarioService.carregarTarefas(usuarios);
 
         System.out.println("\n\n\n");
         while(true) {
@@ -496,6 +498,7 @@ public class Menu {
                 qualUsuario = entradaNaoUsuario();
                 if(qualUsuario == -2) {
                     UsuarioService.salvarLogins(usuarios);
+                    UsuarioService.salvarTarefas(usuarios);
                     break;
                 }
                 else if(qualUsuario == -1) continue;

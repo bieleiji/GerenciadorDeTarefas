@@ -3,7 +3,7 @@ package User;
 import java.util.ArrayList;
 
 public class Usuario {
-    private static ArrayList<GerenciadorTarefas<Tarefa, Boolean>> gerenciadorTarefas = new ArrayList<>();
+    private ArrayList<GerenciadorTarefas<Tarefa, Boolean>> gerenciadorTarefas = new ArrayList<>();
     private String nome;
     private final String id;
 
@@ -35,8 +35,8 @@ public class Usuario {
         return gerenciadorTarefas;
     }
 
-    public static void setGerenciadorTarefas(ArrayList<GerenciadorTarefas<Tarefa, Boolean>> gerenciadorTarefas) {
-        Usuario.gerenciadorTarefas = gerenciadorTarefas;
+    public void setGerenciadorTarefas(ArrayList<GerenciadorTarefas<Tarefa, Boolean>> gerenciadorTarefas) {
+        this.gerenciadorTarefas = gerenciadorTarefas;
     }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,8 +47,8 @@ public class Usuario {
     /// Criar Tarefa ↓
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void criarTarefa(Tarefa tarefa) {
-        gerenciadorTarefas.add(new GerenciadorTarefas<>(tarefa,false));
+    public void criarTarefa(Tarefa tarefa, boolean andamento) {
+        gerenciadorTarefas.add(new GerenciadorTarefas<>(tarefa,andamento));
     }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +59,8 @@ public class Usuario {
         gerenciadorTarefas.get(qualTarefa).getTask().setTitulo(titulo);
     }
 
-    public static void alterarDescricao(String descricao, int qualTarefa) {
-        gerenciadorTarefas.get(qualTarefa).getTask().setDescricao(descricao);
+    public void alterarDescricao(String descricao, int qualTarefa) {
+        this.gerenciadorTarefas.get(qualTarefa).getTask().setDescricao(descricao);
     }
 
 
@@ -77,6 +77,6 @@ public class Usuario {
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void concluirTarefa(int qualTarefa) {
-        gerenciadorTarefas.get(qualTarefa).setComplete(true);
+        gerenciadorTarefas.get(qualTarefa).setCourse(true);
     }
 }
