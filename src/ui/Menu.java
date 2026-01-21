@@ -377,6 +377,8 @@ public class Menu {
             else {
                 System.out.println("\n\n\n");
                 System.out.println("\n\n(Caso queira cancelar digite 'enter' em qualquer campo)\n");
+                if(escolha == 'A' || escolha == 'B')
+                    System.out.println("\n\n(Título e descrição não podem conter ';')");
                 switch(escolha) {
                     case 'A' -> criarTarefa();
                     case 'B' -> alterarTarefa();

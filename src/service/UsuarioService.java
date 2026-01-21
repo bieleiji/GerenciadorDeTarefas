@@ -107,6 +107,12 @@ public class UsuarioService {
         if(titulo == null || titulo.isBlank())
             return "\n\n(titulo inválido, nenhuma tarefa foi criada)\n";
 
+        else if(titulo.contains(";"))
+            return "\n\n(O título não pode conter ';', nenhuma tarefa foi criada)\n";
+
+        else if(descricao.contains(";"))
+            return "\n\n(A descrição não pode conter ';', nenhuma tarefa foi criada)\n";
+
         else if(ehTituloRepetido(usuario,titulo) != -1)
             return "\n\n(titulo já utilizado, nenhuma tarefa foi criada)\n";
 
@@ -124,6 +130,9 @@ public class UsuarioService {
         if(titulo == null || titulo.isBlank())
             return "\n\n(titulo inválido. Título não foi alterado)\n";
 
+        else if(titulo.contains(";"))
+            return "\n\n(O título não pode conter ';', Título não foi alterado)\n";
+
         else if(ehTituloRepetido(usuario,titulo) != -1)
             return "\n\n(titulo repetido ou já utilizado. Título não foi alterado)\n";
 
@@ -136,6 +145,9 @@ public class UsuarioService {
     public static String alterarDescricao(Usuario usuario, String descricao, int qualTarefa) {
         if(descricao == null || descricao.isBlank())
             return "\n\n(descrição inválida. Descrição não foi alterada)\n";
+
+        else if(descricao.contains(";"))
+            return "\n\n(A descrição não pode conter ';', Descrição não foi alterada)\n";
 
         else {
             usuario.alterarDescricao(descricao, qualTarefa);
