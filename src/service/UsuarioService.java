@@ -3,7 +3,92 @@ package service;
 import User.Tarefa;
 import User.Usuario;
 
+import java.io.*;
+import java.util.ArrayList;
+
 public class UsuarioService {
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento/Carregamento dos Dados ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento de Dados ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento de login ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String caminhoLogin = "src/service/dadosDeLogin.txt";
+    public static String caminhoTarefas = "src/service/dadosDeTarefas.txt";
+
+    public static void salvarLogins(ArrayList<Usuario> usuarios) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoLogin))) {
+            for(Usuario usuario : usuarios) {
+                writer.write(usuario.getNome() + ";" + usuario.getId());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("\n\n(Operação de entrada e saída interrompida)\n");
+        }
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Salvamento de Tarefas ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void salvarTarefas(ArrayList<Usuario> usuarios) {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoTarefas))) {
+            for(Usuario usuario : usuarios) {
+                for(int i = 0; i < usuario.getGerenciadorTarefas().size(); i++) {
+                    writer.write(usuario.getId() + ";");
+                    writer.write(usuario.getGerenciadorTarefas().get(i).getTask().getTitulo() + ";");
+                    writer.write(usuario.getGerenciadorTarefas().get(i).getTask().getDescricao() + ";");
+                    writer.write(usuario.getGerenciadorTarefas().get(i).getCourse() + ";");
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("\n\n(Operação de entrada e saída interrompida)\n");
+        }
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Carregamento de login ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void carregarLogins(ArrayList<Usuario> usuarios) {
+        try(BufferedReader reader = new BufferedReader(new FileReader(caminhoLogin))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] dados = linha.split(";");
+                usuarios.add(new Usuario(dados[0], dados[1]));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("\n\n(Arquivo não encontrado)\n");
+        } catch (IOException e) {
+            System.out.println("\n\n(Operação de entrada e saída interrompida)\n");
+        }
+    }
+
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Carregamento de login ↓
+    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void carregarTarefas(ArrayList<Usuario> usuarios) {
+        try(BufferedReader reader = new BufferedReader(new FileReader(caminhoTarefas))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                String[] dados = linha.split(";");
+                usuarios.get(Integer.parseInt(dados[0])-1).criarTarefa(new Tarefa(dados[1],dados[2]),Boolean.parseBoolean(dados[3]));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("\n\n(Arquivo não encontrado)\n");
+        } catch (IOException e) {
+            System.out.println("\n\n(Operação de entrada e saída interrompida)\n");
+        }
+    }
 
     /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /// Criar Tarefa ↓
@@ -26,8 +111,7 @@ public class UsuarioService {
             return "\n\n(titulo já utilizado, nenhuma tarefa foi criada)\n";
 
         else {
-            Tarefa tarefa = new Tarefa(titulo,descricao);
-            usuario.criarTarefa(tarefa);
+            usuario.criarTarefa(new Tarefa(titulo,descricao), false);
             return "\n\n(tarefa criada com sucesso!!!)\n";
         }
     }
@@ -49,12 +133,12 @@ public class UsuarioService {
         }
     }
 
-    public static String alterarDescricao(String descricao, int qualTarefa) {
+    public static String alterarDescricao(Usuario usuario, String descricao, int qualTarefa) {
         if(descricao == null || descricao.isBlank())
             return "\n\n(descrição inválida. Descrição não foi alterada)\n";
 
         else {
-            Usuario.alterarDescricao(descricao, qualTarefa);
+            usuario.alterarDescricao(descricao, qualTarefa);
             return "\n\n(Descrição alterada com sucesso!!!)\n";
         }
     }
